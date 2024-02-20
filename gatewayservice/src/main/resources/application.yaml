@@ -1,0 +1,50 @@
+server:
+  port: 8080
+
+eureka:
+  instance:
+    hostname: localhost
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      routes:
+        - id: tasksmicrosevice
+          uri: http://localhost:8081/
+          predicates:
+            - Path=/tasks/**, /styles/**
+
+        - id: usersmicrosevice
+          uri: http://localhost:8082/
+          predicates:
+            - Path=/users/**, /styles/**
+
+# Actuator
+management:
+  endpoint:
+    health:
+      group:
+        custom:
+          include:
+            - diskSpace
+            - ping
+          show-components: always
+          show-details: always
+          status:
+            http-mapping:
+              up: 207
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  info:
+    env:
+      enabled: true
+  prometheus:
+    metrics:
+      export:
+        enabled: true

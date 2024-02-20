@@ -1,0 +1,58 @@
+server:
+  port: 8082
+
+spring:
+    application:
+      name: usersmicrosevice
+    cloud:
+      discovery:
+        enabled: true
+    datasource:
+      url: jdbc:mysql://localhost:3306/schema
+      username: username
+      password: password
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    jpa:
+      hibernate:
+        ddl-auto: update
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.MySQLDialect
+          format_sql: true
+      show-sql: true
+
+eureka:
+  instance:
+    hostname: localhost
+
+info:
+  app:
+    name: "This is users service application"
+    version: "0.0.1"
+# Actuator
+management:
+  endpoint:
+    health:
+      group:
+        custom:
+          include:
+            - diskSpace
+            - ping
+          show-components: always
+          show-details: always
+          status:
+            http-mapping:
+              up: 207
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  info:
+    env:
+      enabled: true
+  prometheus:
+    metrics:
+      export:
+        enabled: true
